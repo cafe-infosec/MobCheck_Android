@@ -69,20 +69,20 @@ class DetailActivity : AppCompatActivity() {
             tvStatus.text = systemInfo.successTitle
             ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.updated, null))
             if (systemInfo.isAuto == Constants().IS_AUTO) {
-                ivSwitch.visibility = GONE
+                llSwitch.visibility = GONE
             } else {
                 ivSwitch.isChecked = true
-                ivSwitch.visibility = VISIBLE
+                llSwitch.visibility = VISIBLE
             }
         } else {
             tvStatus.text = systemInfo.failTitle
             if (systemInfo.isAuto == Constants().IS_AUTO) {
                 ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.alert, null))
-                ivSwitch.visibility = GONE
+                llSwitch.visibility = GONE
             } else {
                 ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.review, null))
                 ivSwitch.isChecked = false
-                ivSwitch.visibility = VISIBLE
+                llSwitch.visibility = VISIBLE
             }
         }
         when (id) {
