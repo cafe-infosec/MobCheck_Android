@@ -14,6 +14,8 @@ import com.mobilecheck.assessment.R
 import com.mobilecheck.assessment.database.DatabaseHandler
 import com.mobilecheck.assessment.model.SystemInfo
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_detail.toolbar
+import kotlinx.android.synthetic.main.activity_main.*
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var systemInfo: SystemInfo
@@ -26,9 +28,12 @@ class DetailActivity : AppCompatActivity() {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
+        ivNavIcon.setOnClickListener(View.OnClickListener {
+            onBackPressed()
+        })
         var id = intent.getStringExtra(Constants().EXTRA_ID)
         val databaseHandler = DatabaseHandler(this)
-        getData(databaseHandler,id)
+        getData(databaseHandler, id)
         ivSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 databaseHandler.updateItemsManually(
@@ -40,7 +45,7 @@ class DetailActivity : AppCompatActivity() {
                         Constants().IS_MANUAL
                     )
                 )
-                getData(databaseHandler,id)
+                getData(databaseHandler, id)
             } else {
                 databaseHandler.updateItemsManually(
                     SystemInfo(
@@ -51,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
                         Constants().IS_MANUAL
                     )
                 )
-                getData(databaseHandler,id)
+                getData(databaseHandler, id)
             }
         }
     }

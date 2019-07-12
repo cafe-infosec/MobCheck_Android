@@ -2,29 +2,48 @@
 <androidx.appcompat.widget.LinearLayoutCompat
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".activity.DetailActivity">
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            android:background="@color/colorPrimary">
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/details"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_18"
-                android:textColor="@color/colorText"/>
+                android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivNavIcon"
+                    android:src="@drawable/ic_back"
+                    android:layout_width="wrap_content"
+                    android:paddingStart="@dimen/small_margin"
+                    android:paddingEnd="@dimen/small_margin"
+                    android:layout_gravity="center|start"
+                    android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/text_size_18"
+                    android:textColor="@color/colorText"/>
+        </RelativeLayout>
+
     </androidx.appcompat.widget.Toolbar>
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="@dimen/small_margin"
+            android:padding="@dimen/activity_vertical_margin"
     />
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvStatus"
@@ -32,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="@dimen/text_size_18"
+            android:textColor="@color/colorText"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:gravity="center"/>
     <androidx.appcompat.widget.AppCompatTextView
@@ -39,9 +59,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorDetailText"
             android:textSize="@dimen/text_size_16"
-            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:gravity="center"/>
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -61,6 +83,8 @@
             android:id="@+id/tv_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/colorText"
             android:layout_margin="@dimen/activity_vertical_margin"/>
     <View android:layout_width="match_parent" android:layout_height="1dp"
           android:background="@android:color/darker_gray"/>
@@ -69,6 +93,11 @@
             android:id="@+id/ivSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorEnableSetting"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/colorText"
             android:padding="@dimen/activity_vertical_margin"/>
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@android:color/darker_gray"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
