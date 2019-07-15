@@ -87,7 +87,8 @@ class DetailActivity : AppCompatActivity() {
         }
         when (id) {
             Constants().KEY_SUPPORT -> {
-                tvDescription.text = ""
+                tvDescription.text = Constants().SUPPORT_DESCRIPTION
+                tvSettings.text = Constants().SUPPORT_SETTINGS
             }
             Constants().KEY_SYSTEM_UPDATE -> {
                 tvDescription.text =Constants().SYSTEM_UPDATE_DESCRIPTION
@@ -100,7 +101,8 @@ class DetailActivity : AppCompatActivity() {
                 tvSettings.text = Constants().APP_UPDATE_SETTINGS
             }
             Constants().KEY_ROOTED -> {
-                tvDescription.text = ""
+                tvDescription.text = Constants().ROOTED_DESCRIPTION
+                tvSettings.text = Constants().ROOTED_SETTINGS
             }
             Constants().KEY_PASSWORD -> {
                 tvDescription.text = Constants().PASSWORD_DESCRIPTION

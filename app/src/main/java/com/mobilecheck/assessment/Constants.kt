@@ -32,7 +32,7 @@ class Constants {
 
     //ROOTED
     val ROOTED_DESCRIPTION = "Rooting your device strips it of key security features."
-    val ROOTED_SETTINGS = ""
+    val ROOTED_SETTINGS = "You will need to unroot device manually"
 
     //PASSWORD
     val PASSWORD_DESCRIPTION = "Your device should have a minimum 6 character login password."
