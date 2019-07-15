@@ -24,6 +24,7 @@ import com.google.android.things.update.UpdateManagerStatus;
 import com.google.android.things.update.UpdateManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import com.mobilecheck.assessment.Constants
 
@@ -154,7 +155,7 @@ class MainActivity : AppCompatActivity(), StatusListener {
         var count:Int = 0
         for(i in 0..itemList.size-1){
             if(itemList.get(i).status==Constants().IS_NOT_UP_TO_DATE){
-                count=+1
+                count=count+1
             }
         }
         if(count>0){
@@ -240,7 +241,6 @@ class MainActivity : AppCompatActivity(), StatusListener {
         mUpdateManager.addStatusListener(this)
         val status = mUpdateManager.status
         Toast.makeText(applicationContext,"Status"+status,Toast.LENGTH_SHORT).show()*/
-       // DevicePolicyManager().getPendingSystemUpdate()
         return 1
     }
 
