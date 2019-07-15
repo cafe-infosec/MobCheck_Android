@@ -80,7 +80,7 @@
                 android:layout_marginEnd="@dimen/small_margin"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_settings"
+            android:id="@+id/tvSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_16"
@@ -102,7 +102,7 @@
                 android:textSize="@dimen/text_size_16"
                 android:textColor="@color/colorText"
                 android:padding="@dimen/activity_vertical_margin"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp"
-              android:background="@android:color/darker_gray"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@android:color/darker_gray"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

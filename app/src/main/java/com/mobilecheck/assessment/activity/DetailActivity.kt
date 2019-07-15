@@ -90,32 +90,35 @@ class DetailActivity : AppCompatActivity() {
                 tvDescription.text = ""
             }
             Constants().KEY_SYSTEM_UPDATE -> {
-                tvDescription.text =
-                    "Supported devices get regular updates, which include fixes for security issues. These updates should be installed within a month of being released."
-                ivSwitch.text = "I have enabled auto system update"
+                tvDescription.text =Constants().SYSTEM_UPDATE_DESCRIPTION
+                ivSwitch.text = Constants().SYSTEM_UPDATE_MANUAL
+                tvSettings.text = Constants().SYSTEM_UPDATE_SETTINGS
             }
             Constants().KEY_APP_UPDATE -> {
-                tvDescription.text =
-                    "If you have a good Internet connection, set your device to automatically update your apps, otherwise, manually update them on a regular basis."
-                ivSwitch.text = "I have enabled auto app update from Google play store"
+                tvDescription.text = Constants().APP_UPDATE_DESCRIPTION
+                ivSwitch.text = Constants().APP_UPDATE_MANUAL
+                tvSettings.text = Constants().APP_UPDATE_SETTINGS
             }
             Constants().KEY_ROOTED -> {
                 tvDescription.text = ""
             }
             Constants().KEY_PASSWORD -> {
-                tvDescription.text = "Your device should have a minimum 6 character login password."
+                tvDescription.text = Constants().PASSWORD_DESCRIPTION
+                tvSettings.text = Constants().PASSWORD_SETTINGS
             }
             Constants().KEY_BACKUP -> {
-                tvDescription.text = "Backing up the data on your device is important in case it is lost or stolen."
-                ivSwitch.text = "I have enabled Google Drive Backup"
+                tvDescription.text = Constants().BACKUP_DESCRIPTION
+                ivSwitch.text = Constants().BACKUP_MANUAL
+                tvSettings.text = Constants().BACKUP_SETTINGS //TODO do more research
             }
             Constants().KEY_FIND_MY_DEVICE -> {
-                tvDescription.text =
-                    "Enabling Geolocation for your device allows you to find or even wipe it if it is lost or stolen."
-                ivSwitch.text = "I have enabled FindMyDevice"
+                tvDescription.text =Constants().FIND_DEVICE_DESCRIPTION
+                ivSwitch.text = Constants().FIND_DEVICE_MANUAL
+                tvSettings.text = Constants().FIND_DEVICE_SETTINGS
             }
             Constants().KEY_VPN -> {
-                tvDescription.text = "It is highly recommended to use a VPN when utilizing untrusted WiFi."
+                tvDescription.text = Constants().VPN_DESCRIPTION
+                tvSettings.text = Constants().VPN_SETTINGS
             }
         }
     }

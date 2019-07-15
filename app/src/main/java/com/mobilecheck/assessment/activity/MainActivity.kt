@@ -15,6 +15,7 @@ import com.mobilecheck.assessment.model.SystemInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import android.app.KeyguardManager
+import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.os.Handler
 import com.google.android.things.update.StatusListener
@@ -235,9 +236,11 @@ class MainActivity : AppCompatActivity(), StatusListener {
     }
 
     fun checkSystemUpdate(): Int {
-        val mUpdateManager: UpdateManager = UpdateManager.getInstance()
+        /*val mUpdateManager: UpdateManager = UpdateManager.getInstance()
         mUpdateManager.addStatusListener(this)
         val status = mUpdateManager.status
+        Toast.makeText(applicationContext,"Status"+status,Toast.LENGTH_SHORT).show()*/
+       // DevicePolicyManager().getPendingSystemUpdate()
         return 1
     }
 
@@ -258,13 +261,9 @@ class MainActivity : AppCompatActivity(), StatusListener {
             Toast.makeText(applicationContext, "up to date", Toast.LENGTH_LONG).show()
         }
     }
-
-    fun checkForAppUpdates() {
-        //TODO need to do manual check
-    }
-
     fun checkAutoUpdates(): Int {
         var count: Int = 0
+        //checkSystemUpdate()
         count = +checkPasscode() + checkRootedDevice() + checkActiveVPN() + checkSupportedVersion()
         return count
     }
