@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assessment</string>
+    <string name="app_name">MobCheck</string>
     <string name="title_checklist">Checklist</string>
     <string name="menu_title_close">Close</string>
     <string name="how_to">How To:</string>
