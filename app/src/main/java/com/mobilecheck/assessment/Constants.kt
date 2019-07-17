@@ -17,7 +17,7 @@ class Constants {
     val IS_MANUAL = 0
 
     //description and settings
-    val SUPPORT_DESCRIPTION =""
+    val SUPPORT_DESCRIPTION ="It is important to only use devices that are still receiving security updates. Refer to the checklist for what the minimum supported Android version is."
     val SUPPORT_SETTINGS ="If your device can be upgraded to a supported android version, here is how you do it: Go to Settings -->About Phone -->System update"
 
     //SYSTEM_UPDATE
