@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import android.app.KeyguardManager
 import android.app.admin.DevicePolicyManager
+import android.app.admin.SystemUpdateInfo
+import android.content.ComponentName
 import android.content.Context
 import android.os.Handler
 import com.google.android.things.update.StatusListener
@@ -24,9 +26,11 @@ import com.google.android.things.update.UpdateManagerStatus;
 import com.google.android.things.update.UpdateManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.AsyncTask
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import com.mobilecheck.assessment.Constants
+import java.util.*
 
 class MainActivity : AppCompatActivity(), StatusListener {
     private var PRIVATE_MODE = 0
@@ -35,6 +39,7 @@ class MainActivity : AppCompatActivity(), StatusListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkSystemUpdate()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
@@ -47,7 +52,7 @@ class MainActivity : AppCompatActivity(), StatusListener {
         super.onStart()
         val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         if (sharedPref.getBoolean(PREF_NAME, false)) {
-            populateList()
+            updateData(this).execute()
 
         } else {
             setDatabase(sharedPref)
@@ -130,7 +135,7 @@ class MainActivity : AppCompatActivity(), StatusListener {
         val editor = sharedPref.edit()
         editor.putBoolean(PREF_NAME, true)
         editor.apply()
-        populateList()
+        updateData(this).execute()
     }
 
     fun getItems(): List<SystemInfo> {
@@ -140,25 +145,23 @@ class MainActivity : AppCompatActivity(), StatusListener {
     }
 
     fun populateList() {
-        if (checkAutoUpdates() == 4) {
-            var itemlist:List<SystemInfo>  = getItems()
-            recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
-            recyclerView.apply {
-                layoutManager = LinearLayoutManager(applicationContext)
-                adapter = ListAdapter(applicationContext,itemlist)
-            }
-            displayStatus(itemlist)
+        var itemlist: List<SystemInfo> = getItems()
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(applicationContext)
+            adapter = ListAdapter(applicationContext, itemlist)
         }
+        displayStatus(itemlist)
     }
 
-    fun displayStatus(itemList:List<SystemInfo>){
-        var count:Int = 0
-        for(i in 0..itemList.size-1){
-            if(itemList.get(i).status==Constants().IS_NOT_UP_TO_DATE){
-                count=count+1
+    fun displayStatus(itemList: List<SystemInfo>) {
+        var count: Int = 0
+        for (i in 0..itemList.size - 1) {
+            if (itemList.get(i).status == Constants().IS_NOT_UP_TO_DATE) {
+                count = count + 1
             }
         }
-        if(count>0){
+        if (count > 0) {
             ivAlert.setImageDrawable(
                 ResourcesCompat.getDrawable(
                     resources,
@@ -167,7 +170,7 @@ class MainActivity : AppCompatActivity(), StatusListener {
                 )
             )
             tvNote.text = "$count Settings Need Review!"
-        }else{
+        } else {
             ivAlert.setImageDrawable(
                 ResourcesCompat.getDrawable(
                     resources,
@@ -178,8 +181,9 @@ class MainActivity : AppCompatActivity(), StatusListener {
             tvNote.text = "All Good!"
         }
     }
+
     //method to check keypad lock security
-    fun checkPasscode(): Int {
+    fun checkPasscode(): Boolean {
         var status: Int
         val km = applicationContext.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         if (km.isKeyguardSecure) {
@@ -188,11 +192,11 @@ class MainActivity : AppCompatActivity(), StatusListener {
             status = Constants().IS_NOT_UP_TO_DATE
         }
         databaseHandler.updateStatus(Constants().KEY_PASSWORD, status)
-        return 1
+        return true
     }
 
     //check for rooted device
-    fun checkRootedDevice(): Int {
+    fun checkRootedDevice(): Boolean {
         var status: Int
         val rootBeer = RootBeer(applicationContext)
         if (rootBeer.isRooted()) {
@@ -201,11 +205,11 @@ class MainActivity : AppCompatActivity(), StatusListener {
             status = Constants().IS_UP_TO_DATE
         }
         databaseHandler.updateStatus(Constants().KEY_ROOTED, status)
-        return 1
+        return true
     }
 
     //Check if VPN is active
-    fun checkActiveVPN(): Int {
+    fun checkActiveVPN(): Boolean {
         var status: Int
         val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networks = cm.allNetworks
@@ -222,10 +226,10 @@ class MainActivity : AppCompatActivity(), StatusListener {
             status = Constants().IS_NOT_UP_TO_DATE
         }
         databaseHandler.updateStatus(Constants().KEY_VPN, status)
-        return 1
+        return true
     }
 
-    fun checkSupportedVersion(): Int {
+    fun checkSupportedVersion(): Boolean {
         var status: Int
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             status = Constants().IS_UP_TO_DATE
@@ -233,14 +237,11 @@ class MainActivity : AppCompatActivity(), StatusListener {
             status = Constants().IS_NOT_UP_TO_DATE
         }
         databaseHandler.updateStatus(Constants().KEY_SUPPORT, status)
-        return 1
+        return true
     }
 
     fun checkSystemUpdate(): Int {
-        /*val mUpdateManager: UpdateManager = UpdateManager.getInstance()
-        mUpdateManager.addStatusListener(this)
-        val status = mUpdateManager.status
-        Toast.makeText(applicationContext,"Status"+status,Toast.LENGTH_SHORT).show()*/
+
         return 1
     }
 
@@ -261,10 +262,49 @@ class MainActivity : AppCompatActivity(), StatusListener {
             Toast.makeText(applicationContext, "up to date", Toast.LENGTH_LONG).show()
         }
     }
-    fun checkAutoUpdates(): Int {
-        var count: Int = 0
-        //checkSystemUpdate()
-        count = +checkPasscode() + checkRootedDevice() + checkActiveVPN() + checkSupportedVersion()
-        return count
+
+    class updateData(var activity: MainActivity) : AsyncTask<Int, Int, Int>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            activity.progressCircular.visibility = View.VISIBLE
+        }
+
+        override fun doInBackground(vararg params: Int?): Int {
+            var count: Int = 0
+            if (activity.checkPasscode()) {
+                count = count + 1
+                if (activity.checkRootedDevice()) {
+                    count = count + 1
+                    if (activity.checkActiveVPN()) {
+                        count = count + 1
+                        if (activity.checkSupportedVersion()) {
+                            count = count + 1
+                        } else {
+                            Log.d("Tag mainactivity ", "checkSupportedVersion")
+                        }
+                    } else {
+                        Log.d("Tag mainactivity ", "checkActiveVPN")
+                    }
+                } else {
+                    Log.d("Tag mainactivity ", "checkRootedDevice")
+                }
+            } else {
+                Log.d("Tag mainactivity ", "checkRootedDevice")
+
+                return count
+            }
+            return count
+        }
+
+        override fun onPostExecute(result: Int?) {
+            super.onPostExecute(result)
+            activity.progressCircular.visibility = View.GONE
+            if (result != null && result > 0) {
+                activity.populateList()
+            } else {
+                Log.d("Tag mainactivity ", "populateList")
+            }
+        }
+
     }
 }
