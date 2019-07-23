@@ -13,33 +13,23 @@ import com.mobilecheck.assessment.adapter.ListAdapter
 import com.mobilecheck.assessment.database.DatabaseHandler
 import com.mobilecheck.assessment.model.SystemInfo
 import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.Toast
 import android.app.KeyguardManager
-import android.app.admin.DevicePolicyManager
-import android.app.admin.SystemUpdateInfo
-import android.content.ComponentName
 import android.content.Context
-import android.os.Handler
-import com.google.android.things.update.StatusListener
 import com.scottyab.rootbeer.RootBeer
-import com.google.android.things.update.UpdateManagerStatus;
-import com.google.android.things.update.UpdateManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.AsyncTask
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import com.mobilecheck.assessment.Constants
-import java.util.*
 
-class MainActivity : AppCompatActivity(), StatusListener {
+class MainActivity : AppCompatActivity() {
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "assessments"
     val databaseHandler: DatabaseHandler = DatabaseHandler(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        checkSystemUpdate()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
@@ -240,29 +230,7 @@ class MainActivity : AppCompatActivity(), StatusListener {
         return true
     }
 
-    fun checkSystemUpdate(): Int {
-
-        return 1
-    }
-
-    override fun onStatusUpdate(status: UpdateManagerStatus) {
-        Handler().post {
-            Runnable {
-                kotlin.run {
-                    handleStatusUpdate(status)
-                }
-            }
-        }
-    }
-
-    fun handleStatusUpdate(status: UpdateManagerStatus) {
-        if (status.currentState == UpdateManagerStatus.STATE_UPDATE_AVAILABLE) {
-            Toast.makeText(applicationContext, "update available", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(applicationContext, "up to date", Toast.LENGTH_LONG).show()
-        }
-    }
-
+    /*Asyctask class*/
     class updateData(var activity: MainActivity) : AsyncTask<Int, Int, Int>() {
         override fun onPreExecute() {
             super.onPreExecute()
@@ -305,6 +273,5 @@ class MainActivity : AppCompatActivity(), StatusListener {
                 Log.d("Tag mainactivity ", "populateList")
             }
         }
-
     }
 }
