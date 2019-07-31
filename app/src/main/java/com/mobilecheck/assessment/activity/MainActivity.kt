@@ -248,16 +248,16 @@ class MainActivity : AppCompatActivity() {
                         if (activity.checkSupportedVersion()) {
                             count = count + 1
                         } else {
-                            Log.d("Tag mainactivity ", "checkSupportedVersion")
+                            //checkSupportedVersion
                         }
                     } else {
-                        Log.d("Tag mainactivity ", "checkActiveVPN")
+                        //checkActiveVPN
                     }
                 } else {
-                    Log.d("Tag mainactivity ", "checkRootedDevice")
+                    //checkRootedDevice
                 }
             } else {
-                Log.d("Tag mainactivity ", "checkRootedDevice")
+                //checkRootedDevice
 
                 return count
             }
@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity() {
             if (result != null && result > 0) {
                 activity.populateList()
             } else {
-                Log.d("Tag mainactivity ", "populateList")
+                //do nothing
             }
         }
     }

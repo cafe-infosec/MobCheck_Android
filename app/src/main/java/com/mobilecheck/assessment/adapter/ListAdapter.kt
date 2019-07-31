@@ -11,7 +11,6 @@ import com.mobilecheck.assessment.Constants
 import com.mobilecheck.assessment.R
 import com.mobilecheck.assessment.activity.DetailActivity
 import com.mobilecheck.assessment.model.SystemInfo
-import kotlinx.android.synthetic.main.activity_detail.view.*
 import kotlinx.android.synthetic.main.layout_checklist.view.*
 
 class ListAdapter(context: Context, itemList: List<SystemInfo>) :
