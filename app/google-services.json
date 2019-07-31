@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "446413048631",
+    "firebase_url": "https://mobcheck-4c8dc.firebaseio.com",
+    "project_id": "mobcheck-4c8dc",
+    "storage_bucket": "mobcheck-4c8dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446413048631:android:9c52c5eee5b588b3",
+        "android_client_info": {
+          "package_name": "com.mobilecheck.assessment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446413048631-4088ipknvgl3kbp36v41htsub7se7un8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqqFcLWR2goluV3KyMWqj7CG09ejTbzpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446413048631-4088ipknvgl3kbp36v41htsub7se7un8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
