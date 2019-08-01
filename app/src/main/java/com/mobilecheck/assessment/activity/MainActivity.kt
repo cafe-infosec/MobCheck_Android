@@ -19,13 +19,12 @@ import com.scottyab.rootbeer.RootBeer
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.AsyncTask
-import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import com.mobilecheck.assessment.Constants
 
 class MainActivity : AppCompatActivity() {
-    private var PRIVATE_MODE = 0
     private val PREF_NAME = "assessments"
+    private val PREF_HAS_DATA = "hasData"
     val databaseHandler: DatabaseHandler = DatabaseHandler(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,17 +32,15 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
-            val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
     }
 
     override fun onStart() {
         super.onStart()
-        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-        if (sharedPref.getBoolean(PREF_NAME, false)) {
+        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
+        if (sharedPref.getBoolean(PREF_HAS_DATA, false)) {
             updateData(this).execute()
-
         } else {
             setDatabase(sharedPref)
         }
@@ -123,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         val editor = sharedPref.edit()
-        editor.putBoolean(PREF_NAME, true)
+        editor.putBoolean(PREF_HAS_DATA, true)
         editor.apply()
         updateData(this).execute()
     }
@@ -247,18 +244,10 @@ class MainActivity : AppCompatActivity() {
                         count = count + 1
                         if (activity.checkSupportedVersion()) {
                             count = count + 1
-                        } else {
-                            //checkSupportedVersion
                         }
-                    } else {
-                        //checkActiveVPN
                     }
-                } else {
-                    //checkRootedDevice
                 }
             } else {
-                //checkRootedDevice
-
                 return count
             }
             return count

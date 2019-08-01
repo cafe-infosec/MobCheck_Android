@@ -26,10 +26,9 @@ class DetailActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
-            val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
-        ivNavIcon.setOnClickListener(View.OnClickListener {
+        ivNavIcon.setOnClickListener({
             onBackPressed()
         })
         var id = intent.getStringExtra(Constants().EXTRA_ID)
